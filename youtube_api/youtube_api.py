@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import diskcache
 from googleapiclient.discovery import build
-from pytube import YouTube, Stream
+from pytubefix import YouTube, Stream
 
 
 @dataclass
