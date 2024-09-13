@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "telegram-music-bot"
+version = "0.1.0"
+description = ""
+authors = ["mellgrief <42402495+mellgrief@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
