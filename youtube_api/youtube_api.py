@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 
 import diskcache
 from googleapiclient.discovery import build
@@ -28,7 +28,7 @@ class YouTubeApi:
             part="snippet",
             q=query,
             type="video",
-            maxResults=10,
+            maxResults=6,
             videoCategoryId="10"
         )
         response = request.execute()
@@ -41,10 +41,10 @@ class YouTubeApi:
                 self._cache.set(video_id, audio.read(), expire=24 * 60 * 60)
         return self._cache[video_id]
 
-    def download_audio(self, video_id: str) -> bytes:
+    def download_audio(self, video_id: str) -> Tuple[str, bytes]:
         video = YouTube(f"https://www.youtube.com/watch?v={video_id}")
         audio_stream = video.streams.filter(only_audio=True).first()
         audio_stream.download(filename=f"tempAudios/{video_id}.mp3")
         audio_data = self.cache_audio(video_id)
         os.remove(f"tempAudios/{video_id}.mp3")
-        return audio_data
+        return video.title, audio_data
