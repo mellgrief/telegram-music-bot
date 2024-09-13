@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.11"
 aiogram = {extras = ["i18n"], version = "^3.13.0"}
 python-dotenv = "^1.0.1"
+google-api-python-client = "^2.145.0"
+pytube-cypher-fix = "^15.0.1"
+diskcache = "^5.6.3"
 
 
 [build-system]
