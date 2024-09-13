@@ -3,37 +3,30 @@ import logging
 import sys
 from os import getenv
 
-from aiogram import Bot, Dispatcher, html
+from aiogram import Bot, Dispatcher, html, Router
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message
+from aiogram.utils.i18n import gettext as _, I18n, SimpleI18nMiddleware
 from dotenv import load_dotenv
 
 load_dotenv()
 
-
 TOKEN = getenv("TELEGRAM_TOKEN")
 
-
 dp = Dispatcher()
+i18n = I18n(path="locales", default_locale="en", domain="messages")
+dp.message.middleware(SimpleI18nMiddleware(i18n))
 
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-
-    await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!")
-
-
-@dp.message()
-async def echo_handler(message: Message) -> None:
-
-    try:
-        # Send a copy of the received message
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        # But not all the types is supported to be copied so need to handle it
-        await message.answer("Nice try!")
+    await message.answer(
+        _("Hello, {name}!").format(
+            name=html.quote(message.from_user.full_name)
+        )
+    )
 
 
 async def main() -> None:
