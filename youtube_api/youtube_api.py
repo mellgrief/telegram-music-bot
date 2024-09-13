@@ -35,13 +35,13 @@ class YouTubeApi:
 
         return [YoutubeVideo(item["snippet"]["title"], item["id"]["videoId"]) for item in response["items"]]
 
-    def cache_audio(self, video_id: str) -> object:
+    def cache_audio(self, video_id: str) -> bytes:
         if video_id not in self._cache:
             with open(f"tempAudios/{video_id}.mp3", "rb") as audio:
                 self._cache.set(video_id, audio.read(), expire=24 * 60 * 60)
         return self._cache[video_id]
 
-    def download_audio(self, video_id: str) -> object:
+    def download_audio(self, video_id: str) -> bytes:
         video = YouTube(f"https://www.youtube.com/watch?v={video_id}")
         audio_stream = video.streams.filter(only_audio=True).first()
         audio_stream.download(filename=f"tempAudios/{video_id}.mp3")

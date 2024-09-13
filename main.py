@@ -38,8 +38,6 @@ async def message_handler(message: Message) -> None:
     response = youtube.search_music(message.text)[0]
     await message.answer(f"Audio title is {response.video_title}")
     audio = youtube.download_audio(response.video_id)
-    audio_stream = BytesIO(audio)
-    audio_stream.name = "file.mp3"
     input_file = types.BufferedInputFile(audio, filename="file.mp3")
     await message.bot.send_audio(chat_id=message.chat.id, audio=input_file, title=f"{response.video_title}")
 
