@@ -27,6 +27,7 @@ youtube = YouTubeApi(google_token)
 dp = Dispatcher()
 i18n = I18n(path="locales", default_locale="en", domain="messages")
 dp.message.middleware(SimpleI18nMiddleware(i18n))
+dp.callback_query.middleware(SimpleI18nMiddleware(i18n))
 
 
 @dp.message(CommandStart())
